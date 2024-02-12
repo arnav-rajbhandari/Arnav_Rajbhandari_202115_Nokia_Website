@@ -1,41 +1,43 @@
-function validateName(input) {
-    const nameError = document.getElementById('nameError');
-    const nameRegex = /^[a-zA-Z]+$/;
-    if (!nameRegex.test(input.value)) {
-      nameError.textContent = 'Only letters are allowed in the name field.';
-    } else {
-      nameError.textContent = '';
-    }
-  }
 
-  function validateEmail(input) {
-    const emailError = document.getElementById('emailError');
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(input.value)) {
-      emailError.textContent = 'Please enter a valid email address.';
-    } else {
-      emailError.textContent = '';
-    }
-  }
 
-  const form = document.getElementById('contactForm');
-  form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    const name = document.getElementById('name');
-    const email = document.getElementById('email');
-    const message = document.getElementById('message');
+  function validate(){
+    let result = true;
 
-    if (!name.value || !email.value || !message.value) {
-      if (!name.value) {
-        validateName(name);
+    let username = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let message = document.getElementById('message').value;
+   
+
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    const usernameRegex = /^[a-zA-Z0-9_]*$/;
+
+    //Email
+    if(email == ""){
+        emailError.innerHTML  = "Email can't be empty";
+        result = false;
       }
-      if (!email.value) {
-        validateEmail(email);
-      }
-      if (!message.value) {
-        alert('Please fill out all fields before submitting the form.');
-      }
-    } else {
-      alert('Form submitted successfully!');
+    else if(!emailRegex.test(email)) {
+        emailError.innerHTML = "Invalid e-mail format";
+        result = false;
+    }else{
+        emailError.innerHTML = "";
     }
-  });
+
+    // Username
+    if(username == ""){
+        nameError.innerHTML = "Username can't be empty";
+        result = false;
+    }else if(!usernameRegex.test(username)) {
+        nameError.innerHTML = "Username must only contain alphanumeric characters";
+        result = false;
+    }else if(username.length < 6 || username.length > 20) {
+        nameError.innerHTML = "Username must be between 6 and 20 characters long";
+        result = false;
+    }else{
+        nameError.innerHTML = "";
+    }
+
+    
+
+    return result;
+}
